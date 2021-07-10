@@ -5,3 +5,7 @@
   - List of players on each team
   - Ability to track draft rounds and picks
   - Exportable information to `.csv` files 
+### File Structure
+  - `data`: Holds the original list of players and teams
+  - `src`: The source code for the application
+  - `tests`: Tests preformmed on the source code
