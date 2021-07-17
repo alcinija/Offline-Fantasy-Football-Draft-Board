@@ -1,17 +1,30 @@
-
-public class Player {
+public class Player implements Comparable<Player> {
+	private int posRank;
+	private int ovlRank;
 	private String fName;
 	private String lName;
 	private String position;
 	private String nflTeam;
 	private int byeWeek;
+	private boolean drafted;
 	
-	public Player(String fName, String lName, String position, String nflTeam, int byeWeek) {
+	public Player(int posRank, int ovlRank, String fName, String lName, String position, String nflTeam, int byeWeek) {
+		this.posRank = posRank;
+		this.ovlRank = ovlRank;
 		this.fName = fName;
 		this.lName = lName;
 		this.position = position;
 		this.nflTeam = nflTeam;
 		this.byeWeek = byeWeek;
+		this.drafted = false;
+	}
+	
+	public int getPosrank() {
+		return this.posRank;
+	}
+	
+	public int getOvlrank() {
+		return this.ovlRank;
 	}
 	
 	public String getFName() {
@@ -38,7 +51,25 @@ public class Player {
 		return this.byeWeek;
 	}
 	
+	public boolean getDrafted() {
+		return this.drafted;
+	}
+	
 	public String toString() {
-		return this.fName + "\t" + this.lName + "\t" + this.position + "\t" + this.nflTeam + "\t" + this.byeWeek;
+		return this.ovlRank + "\t" + this.posRank + "\t" + this.fName + " " + this.lName + "\t" + this.position + "\t" + this.nflTeam + "\t" + this.byeWeek;
+	}
+	
+	public void changeDrafted() {
+		if (this.drafted) {
+			this.drafted = false;
+		} else {
+			this.drafted = true;
+		}
+	}
+
+	@Override
+	public int compareTo(Player otherPlayer) {
+		
+		return 0;
 	}
 }
