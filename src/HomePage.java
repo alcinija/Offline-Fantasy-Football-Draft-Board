@@ -1,3 +1,5 @@
+import java.awt.BorderLayout;
+import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.FileNotFoundException;
@@ -5,15 +7,16 @@ import java.util.ArrayList;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 public class HomePage extends JFrame implements ActionListener {
-	private JTable list;
+	private JTable list, roundTab;
 	private JTextArea teamTA;
-	private JLabel team, search;
+	private JLabel team, search, round;
 	private JTextField searchTF;
 	
 	public HomePage(ArrayList<Player> players) {
@@ -26,8 +29,28 @@ public class HomePage extends JFrame implements ActionListener {
 		this.teamTA = new JTextArea(50, 80);
 		
 		this.list = new JTable(players.size(), 7);
+		JScrollPane listScroll = new JScrollPane(this.list);
 		
-		JScrollPane sp = new JScrollPane(this.list);
+		this.roundTab = new JTable(12, 1);
+		this.round = new JLabel("Round: #");
+		
+		JPanel roundPanel = new JPanel();
+		roundPanel.add(this.roundTab, BorderLayout.SOUTH);
+		roundPanel.add(this.round, BorderLayout.NORTH);
+		
+		JPanel listPanel = new JPanel();
+		listPanel.setLayout(new FlowLayout());
+		listPanel.add(this.searchTF);
+		listPanel.add(this.search);
+		listPanel.add(this.list);
+		
+		JPanel teamPanel = new JPanel();
+		teamPanel.add(this.team, BorderLayout.SOUTH);
+		teamPanel.add(this.teamTA, BorderLayout.NORTH);
+		
+		this.add(roundPanel, BorderLayout.WEST);
+		this.add(listPanel, BorderLayout.CENTER);
+		this.add(teamPanel, BorderLayout.EAST);
 	}
 	
 	public static void main (String[] args) {
