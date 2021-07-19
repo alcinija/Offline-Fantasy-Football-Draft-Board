@@ -41,4 +41,36 @@ public class PlayerReader {
 		
 		return playerList;
 	}
+	
+	public Object[][] toObjArray() {
+		Object[][] playerArray = new Object[this.playerQueue.size()][8];
+		
+		int row = 0;
+		
+		while (!this.playerQueue.isEmpty()) {
+			Player p = this.playerQueue.poll();
+			
+			playerArray[row][0] = p.getPosrank();
+			playerArray[row][1] = p.getOvlrank();
+			playerArray[row][2] = p.getFName();
+			playerArray[row][3] = p.getLName();
+			playerArray[row][4] = p.getPosition();
+			playerArray[row][5] = p.getNFLTeam();
+			playerArray[row][6] = p.getByeWeek();
+			playerArray[row][7] = p.getDrafted();
+			
+			row++;
+		}
+		
+		return playerArray;
+	}
+	
+	public static void main(String[] args) {
+		try {
+			PlayerReader test = new PlayerReader("playersTest.csv");
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 }
