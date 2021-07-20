@@ -69,7 +69,16 @@ public class Player implements Comparable<Player> {
 
 	@Override
 	public int compareTo(Player otherPlayer) {
-		
-		return 0;
+		if (this.getPosition().equals(otherPlayer.getPosition())) {
+			if (this.getPosrank() < otherPlayer.getPosrank()) {
+				return -1;
+			} else {
+				return 1;
+			}
+		} else if (this.getOvlrank() < otherPlayer.getOvlrank()) {
+			return -1;
+		} else {
+			return 1;
+		}
 	}
 }
