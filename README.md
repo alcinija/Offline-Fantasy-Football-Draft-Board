@@ -1,4 +1,5 @@
 # Fantasy-Football-Draft
+  > *Work in progress expected completion: Aug. 5 2021*
   - Allows a user to run an offline fantasy draft on their desktop
 ### Features
   - List of availible players
