@@ -17,8 +17,8 @@ public class Team {
 		return this.roster;
 	}
 	
-	public void addPlayerToRoster(String fName, String lName, String position, String nflTeam, int byeWeek) {
-		this.roster.add(new Player(fName, lName, position, nflTeam, byeWeek));
+	public void addPlayerToRoster(int posRank, int ovlRank, String fName, String lName, String position, String nflTeam, int byeWeek) {
+		this.roster.add(new Player(posRank, ovlRank, fName, lName, position, nflTeam, byeWeek));
 	}
 	
 	public void removePlayerFromRoster(String playerFName, String playerLName, String nflTeam) {
@@ -27,5 +27,14 @@ public class Team {
 				this.roster.remove(p);
 			}
 		}
+	}
+	public String rosterRecap() {
+		String recap = "";
+		
+		for (int i = 0; i < this.roster.size(); i++) {
+			recap = recap + "Rnd " + i + ": " + this.roster.get(i).getOvlrank() + " " + this.roster.get(i).getFName().charAt(0) + ". " + this.roster.get(i).getLName() + " " + this.roster.get(i).getPosition() + " " + this.roster.get(i).getNFLTeam() + " " + this.roster.get(i).getByeWeek() + "\n";
+		}
+		
+		return recap;
 	}
 }
