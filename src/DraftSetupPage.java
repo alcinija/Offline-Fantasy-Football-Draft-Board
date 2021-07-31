@@ -3,6 +3,7 @@ import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -17,6 +18,11 @@ public class DraftSetupPage extends JFrame implements ActionListener {
 	private JTextField roundsTF, numTeamsTF, teamNameTF;
 	private JLabel year, rounds, numTeams, teamName, ppr;
 	private JRadioButton pprB;
+	private JButton next;
+	
+	private ArrayList<Team> teamList;
+	private int numRounds;
+	private boolean snake;
 	
 	public DraftSetupPage() {
 		this.yearCB = new JComboBox(getYears());
@@ -36,6 +42,11 @@ public class DraftSetupPage extends JFrame implements ActionListener {
 		String[] pprOptions = {"PPR", "Non-PPR"};
 		this.pprB = new JRadioButton();
 		this.ppr = new JLabel("PPR: ");
+		
+		this.next = new JButton("Next");
+		this.next.addActionListener(this);
+		
+		this.teamList = new ArrayList<Team>();
 		
 		JPanel yearPanel = new JPanel();
 		yearPanel.setLayout(new FlowLayout());
@@ -57,11 +68,26 @@ public class DraftSetupPage extends JFrame implements ActionListener {
 		pprPanel.add(this.ppr);
 		pprPanel.add(this.pprB);
 		
-		this.setLayout(new GridLayout(4, 1));
+		JPanel nextPanel = new JPanel();
+		nextPanel.add(this.next);
+		
+		this.setLayout(new GridLayout(5, 1));
 		this.add(yearPanel);
 		this.add(pprPanel);
 		this.add(roundPanel);
 		this.add(numTeamsPanel);
+		this.add(nextPanel);
+	}
+	
+	private boolean createTeams(int numTeams) {
+		for (int i = 0; i < numTeams; i++) {
+			TeamCreatorPage tcp =  new TeamCreatorPage(i + 1, this.teamList);
+			tcp.setSize(500, 100);
+			tcp.setDefaultCloseOperation(EXIT_ON_CLOSE);
+			tcp.setVisible(true);
+		}
+		
+		return true;
 	}
 	
 	private String[] getYears() {
@@ -76,10 +102,28 @@ public class DraftSetupPage extends JFrame implements ActionListener {
 		
 		return years;
 	}
+	
+	public ArrayList<Team> getTeams() {
+		return this.teamList;
+	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
+		if (e.getActionCommand().equals("Next")) {
+			this.dispose();
+			
+			// Year
+			
+			// Round
+			this.numRounds = Integer.parseInt(this.roundsTF.getText());
+			
+			// Snake
+			
+			// PPR
+			
+			// Creates the teams
+			createTeams(Integer.parseInt(this.numTeamsTF.getText()));
+		}
 		
 	}
 	
