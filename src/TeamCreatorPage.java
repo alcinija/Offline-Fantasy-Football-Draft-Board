@@ -2,6 +2,7 @@ import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
 import javax.swing.JButton;
@@ -15,16 +16,21 @@ public class TeamCreatorPage extends JFrame implements ActionListener {
 	private JLabel tName;
 	private JButton finish;
 	
+	private Object[] draftParams;
 	private ArrayList<Team> teams;
-	private String teamName;
+	private int maxTeamNum;
 	
-	public TeamCreatorPage(int teamNum, ArrayList<Team> teams) {
-		super("Team " + teamNum + " Creator");
+	public TeamCreatorPage(Object[] draftParams, int maxTeamNum) {
+		super("Team Creator");
 		
-		this.teams = teams;
+		this.draftParams = draftParams;
+		
+		this.maxTeamNum = maxTeamNum;
+		
+		this.teams = new ArrayList<Team>();
 		
 		this.tNameTF = new JTextField(30);
-		this.tName = new JLabel("Team " + teamNum + " Name: ");
+		this.tName = new JLabel("Team 1 Name: ");
 		
 		this.finish = new JButton("Finish Team");
 		this.finish.addActionListener(this);
@@ -40,22 +46,45 @@ public class TeamCreatorPage extends JFrame implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
 		if (e.getActionCommand().equals("Finish Team")) {
-			this.teamName = this.tNameTF.getText();
+			this.teams.add(new Team(this.tNameTF.getText()));
 			
-			this.teams.add(new Team(this.teamName));
+			if (this.teams.size() >= maxTeamNum) {
+				this.dispose();
+				
+				String year = "players" + draftParams[0] + ".csv";
+				Draft draft = createDraft();
+				
+				Object[][] players = new Object[0][0];
+				String[] cols = {"PosRank", "OvlRank", "FName", "LName", "NFLTeam", "Pos", "ByeWeek", "IsDrafted"};
+				
+				try {
+					players = new PlayerReader(year).toObjArray();
+				} catch (FileNotFoundException ex) {
+					// TODO Auto-generated catch block
+					ex.printStackTrace();
+				}
+				
+				HomePage hp =  new HomePage(players, cols, draft);
+				hp.setSize(1500, 600);
+				hp.setDefaultCloseOperation(EXIT_ON_CLOSE);
+				hp.setVisible(true);
+				
+			}
 			
-			this.dispose();
+			this.tNameTF.setText(null);
+			this.tName.setText("Team " + (this.teams.size() + 1) + " Name: ");
 		}
 	}
 	
-	public String getTeamName() {
-		return this.teamName;
+	private Draft createDraft() {
+		Draft result = new Draft(this.teams, Integer.parseInt(this.draftParams[3].toString()), Boolean.parseBoolean(this.draftParams[2].toString()));
+		
+		return result;
 	}
 	
 	public static void main(String[] args) {
-		TeamCreatorPage dsp =  new TeamCreatorPage(1, new ArrayList<Team>());
+		TeamCreatorPage dsp =  new TeamCreatorPage(3);
 		dsp.setSize(500, 100);
 		dsp.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		dsp.setVisible(true);
