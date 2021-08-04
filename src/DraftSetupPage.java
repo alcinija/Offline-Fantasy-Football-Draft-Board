@@ -16,15 +16,19 @@ import javax.swing.JTextField;
 public class DraftSetupPage extends JFrame implements ActionListener {
 	private JComboBox yearCB;
 	private JTextField roundsTF, numTeamsTF, teamNameTF;
-	private JLabel year, rounds, numTeams, teamName, ppr;
-	private JRadioButton pprB;
+	private JLabel year, rounds, numTeams, teamName, snakeL;
+	private JRadioButton snakeB;
 	private JButton next;
 	
 	private ArrayList<Team> teamList;
 	private int numRounds;
 	private boolean snake;
 	
+	private Draft draft;
+	
 	public DraftSetupPage() {
+		super("Draft Setup");
+		
 		this.yearCB = new JComboBox(getYears());
 		this.yearCB.setSelectedIndex(getYears().length - 1);
 		this.yearCB.addActionListener(this);
@@ -39,9 +43,8 @@ public class DraftSetupPage extends JFrame implements ActionListener {
 		this.teamNameTF = new JTextField(15);
 		this.teamName = new JLabel("Team Name: ");
 		
-		String[] pprOptions = {"PPR", "Non-PPR"};
-		this.pprB = new JRadioButton();
-		this.ppr = new JLabel("PPR: ");
+		this.snakeB = new JRadioButton();
+		this.snakeL = new JLabel("Snake: ");
 		
 		this.next = new JButton("Next");
 		this.next.addActionListener(this);
@@ -65,8 +68,8 @@ public class DraftSetupPage extends JFrame implements ActionListener {
 		
 		JPanel pprPanel = new JPanel();
 		pprPanel.setLayout(new FlowLayout());
-		pprPanel.add(this.ppr);
-		pprPanel.add(this.pprB);
+		pprPanel.add(this.snakeL);
+		pprPanel.add(this.snakeB);
 		
 		JPanel nextPanel = new JPanel();
 		nextPanel.add(this.next);
@@ -79,15 +82,11 @@ public class DraftSetupPage extends JFrame implements ActionListener {
 		this.add(nextPanel);
 	}
 	
-	private boolean createTeams(int numTeams) {
-		for (int i = 0; i < numTeams; i++) {
-			TeamCreatorPage tcp =  new TeamCreatorPage(i + 1, this.teamList);
-			tcp.setSize(500, 100);
-			tcp.setDefaultCloseOperation(EXIT_ON_CLOSE);
-			tcp.setVisible(true);
-		}
-		
-		return true;
+	private void createTeams(Object[] draftParams, int numTeams) {
+		TeamCreatorPage tcp =  new TeamCreatorPage(draftParams, numTeams);
+		tcp.setSize(500, 100);
+		tcp.setDefaultCloseOperation(EXIT_ON_CLOSE);
+		tcp.setVisible(true);
 	}
 	
 	private String[] getYears() {
@@ -112,26 +111,19 @@ public class DraftSetupPage extends JFrame implements ActionListener {
 		if (e.getActionCommand().equals("Next")) {
 			this.dispose();
 			
-			// Year
+			Object[] draftParams = new Object[3];
 			
-			// Round
-			this.numRounds = Integer.parseInt(this.roundsTF.getText());
-			
-			// Snake
-			
-			// PPR
+			draftParams[0] = this.yearCB.getSelectedItem();
+			draftParams[1] = this.snakeB.isSelected();
+			draftParams[2] = this.roundsTF.getText();
 			
 			// Creates the teams
-			createTeams(Integer.parseInt(this.numTeamsTF.getText()));
+			createTeams(draftParams, Integer.parseInt(this.numTeamsTF.getText()));
 		}
 		
 	}
 	
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		DraftSetupPage dsp =  new DraftSetupPage();
-		dsp.setSize(500, 300);
-		dsp.setDefaultCloseOperation(EXIT_ON_CLOSE);
-		dsp.setVisible(true);
+	public Draft getDraft() {
+		return this.draft;
 	}
 }
