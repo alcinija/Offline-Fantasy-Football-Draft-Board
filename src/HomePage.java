@@ -4,67 +4,75 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 
+import javax.swing.DefaultCellEditor;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
 
 public class HomePage extends JFrame implements ActionListener {
 	private JTable list, roundTab, teamTab;
 	private JButton searchButton, nextPick, prevPick;
-	//private JTextArea teamTA;
-	private JLabel team, search, round;
+	private JLabel search;
 	private JTextField searchTF;
 	
-	private Draft draft;
+	private JMenuBar menuBar;
+	private JMenu filter;
+	private JMenuItem qb, wr, rb, def, k, te, clear;
 	
-	public HomePage(Object[][] players, String[] cols) {
+	private Draft draft;
+	private String[] cols;
+	
+	public HomePage(Object[][] players, String[] cols, Draft draft) {
 		super("Fantasy Draft");
 		
-		this.draft = new Draft();
+		this.draft = draft;
 		
-		this.search = new JLabel("Search: ");
-		this.searchTF = new JTextField(50);
-		this.searchButton = new JButton("Search");
+		createMenu();
 		
-		this.team = new JLabel("Team");
-		//this.teamTab = new JTextArea(20, 20);
-		this.teamTab = new JTable(12, 1);
+		createList(players, cols);
 		
-		this.list = new JTable(players, cols);
+		createSearch();
 		
-		this.roundTab = new JTable(12, 1);
-		this.round = new JLabel("Round: #");
+		createTeams();
 		
-		this.nextPick = new JButton("Next Pick");
-		this.prevPick = new JButton("Previous Pick");
+		createRounds();
+		
+		createButtons();
 		
 		JPanel roundPanel = new JPanel();
-		//roundPanel.add(this.round, BorderLayout.PAGE_START);
 		roundPanel.add(this.roundTab, BorderLayout.PAGE_END);
 		roundPanel.add(new JScrollPane(this.roundTab));
 		
 		JPanel listPanel = new JPanel();
 		listPanel.setLayout(new FlowLayout());
-		listPanel.add(this.search);
 		listPanel.add(this.searchTF);
 		listPanel.add(this.searchButton);
 		listPanel.add(this.list);
 		listPanel.add(new JScrollPane(this.list));
 		
 		JPanel teamPanel = new JPanel();
-		roundPanel.setLayout(new GridLayout(2,1));
-		//teamPanel.add(this.team, 0);
-		teamPanel.add(this.teamTab, 1);
+		//roundPanel.setLayout(new GridLayout(2,1));
+		teamPanel.add(this.teamTab);
+		teamPanel.add(new JScrollPane(this.teamTab));
 		
 		JPanel buttonRow = new JPanel();
 		buttonRow.add(this.prevPick, BorderLayout.WEST);
 		buttonRow.add(this.nextPick, BorderLayout.EAST);
+		
+		
+		this.setJMenuBar(menuBar);
 		
 		
 		this.add(roundPanel, BorderLayout.WEST);
@@ -73,33 +81,105 @@ public class HomePage extends JFrame implements ActionListener {
 		this.add(buttonRow, BorderLayout.SOUTH);
 	}
 	
-	public static void main (String[] args) {
-		Object[][] players = new Object[0][0];
-		String[] cols = {"PosRank", "OvlRank", "FName", "LName", "NFLTeam", "Pos", "ByeWeek", "IsDrafted"};
+	private void createMenu() {
+		this.menuBar = new JMenuBar();
 		
-		try {
-			players = new PlayerReader("playersTest.csv").toObjArray();
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		this.filter = new JMenu("Filter");
+		
+		this.qb = new JMenuItem("QB");
+		this.qb.addActionListener(this);
+		
+		this.rb = new JMenuItem("RB");
+		this.rb.addActionListener(this);
+		
+		this.wr = new JMenuItem("WR");
+		this.wr.addActionListener(this);
+		
+		this.te = new JMenuItem("TE");
+		this.te.addActionListener(this);
+		
+		this.k = new JMenuItem("K");
+		this.k.addActionListener(this);
+		
+		this.def = new JMenuItem("DEF");
+		this.def.addActionListener(this);
+		
+		this.clear = new JMenuItem("Clear Filters");
+		this.clear.addActionListener(this);
+		
+		this.filter.add(this.qb);
+		this.filter.add(this.rb);
+		this.filter.add(this.wr);
+		this.filter.add(this.te);
+		this.filter.add(this.k);
+		this.filter.add(this.def);
+		
+		this.menuBar.add(this.filter);
+	}
+	
+	private void createSearch() {
+		this.searchTF = new JTextField(40);
+		this.searchButton = new JButton("Search");
+	}
+	
+	private void createButtons() {
+		this.nextPick = new JButton("Next Pick");
+		this.prevPick = new JButton("Previous Pick");
+	}
+	
+	private void createList(Object[][] players, String[] cols) {
+		DefaultTableModel model = new DefaultTableModel(players, cols) {
+			public Class getColumnClass(int column)
+            {
+                for (int row = 0; row < getRowCount(); row++)
+                {
+                    Object o = getValueAt(row, column);
+
+                    if (o != null)
+                        return o.getClass();
+                }
+
+                return Object.class;
+            }
+		};
+		
+		this.list = new JTable(model);
+		
+		DefaultCellEditor dce = (DefaultCellEditor)this.list.getDefaultEditor(Boolean.class);
+		JCheckBox cbe = (JCheckBox)dce.getComponent();
+		
+		TableCellRenderer tcr = this.list.getDefaultRenderer(Boolean.class);
+        JCheckBox cbr = (JCheckBox)tcr;
+	}
+	
+	private Object[] updateList() {
+		Object[] selected = null;
+		
+		for (int i = 0; i < this.list.getRowCount(); i++) {
+			//if (this.list.getValueAt(i, 7)) {
+				
+			//}
 		}
 		
-		HomePage hp =  new HomePage(players, cols);
-		hp.setSize(1500, 600);
-		hp.setDefaultCloseOperation(EXIT_ON_CLOSE);
-		hp.setVisible(true);
+		return selected;
+	}
+	
+	private void createRounds() {
+		Object[] roundTitles = {"Round: " + String.valueOf(this.draft.getCurrentRound()), "Selection"};
+		Object[][] roundNames = {{"Joe", "On the Clock"},{"Nate",""}};
+		this.roundTab = new JTable(roundNames, roundTitles);
+	}
+	
+	private void createTeams() {
+		Object[] teamTitles = {"Team: " + String.valueOf(this.draft.getCurrentTeam().getName()), "Selections"};
+		this.teamTab = new JTable(this.draft.getCurrentTeam().rosterRecap(), teamTitles);
 	}
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getActionCommand().equals("Next Pick")) {
-			int nextPick = this.draft.nextPick();
+			if (this.draft.nextPick() == -1) {
 			
-			Object[] roundTitles = {String.valueOf(this.draft.getRounds()), "Selections"};
-			Object[] teamTitle = {this.draft.getCurrentTeam().getName()};
-			
-			if (nextPick != -1) {
-				this.teamTab = new JTable(this.draft.getCurrentTeam().rosterRecap(), teamTitle);
 			}
 		}
 	}
