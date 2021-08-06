@@ -57,20 +57,11 @@ public class PlayerReader {
 			playerArray[row][4] = p.getPosition();
 			playerArray[row][5] = p.getNFLTeam();
 			playerArray[row][6] = p.getByeWeek();
-			playerArray[row][7] = p.getDrafted();
+			playerArray[row][7] = Boolean.FALSE;
 			
 			row++;
 		}
 		
 		return playerArray;
-	}
-	
-	public static void main(String[] args) {
-		try {
-			PlayerReader test = new PlayerReader("playersTest.csv");
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 	}
 }

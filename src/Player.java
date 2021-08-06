@@ -56,7 +56,7 @@ public class Player implements Comparable<Player> {
 	}
 	
 	public String toString() {
-		return this.ovlRank + "\t" + this.posRank + "\t" + this.fName + " " + this.lName + "\t" + this.position + "\t" + this.nflTeam + "\t" + this.byeWeek;
+		return this.fName + "  " + this.lName + "  " + this.position + "  " + this.nflTeam + "  " + this.byeWeek;
 	}
 	
 	public void changeDrafted() {
@@ -69,13 +69,7 @@ public class Player implements Comparable<Player> {
 
 	@Override
 	public int compareTo(Player otherPlayer) {
-		if (this.getPosition().equals(otherPlayer.getPosition())) {
-			if (this.getPosrank() < otherPlayer.getPosrank()) {
-				return -1;
-			} else {
-				return 1;
-			}
-		} else if (this.getOvlrank() < otherPlayer.getOvlrank()) {
+		if (this.getOvlrank() < otherPlayer.getOvlrank()) {
 			return -1;
 		} else {
 			return 1;

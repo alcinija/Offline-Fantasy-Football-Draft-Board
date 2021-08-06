@@ -78,15 +78,8 @@ public class TeamCreatorPage extends JFrame implements ActionListener {
 	}
 	
 	private Draft createDraft() {
-		Draft result = new Draft(this.teams, Integer.parseInt(this.draftParams[3].toString()), Boolean.parseBoolean(this.draftParams[2].toString()));
+		Draft result = new Draft(this.teams, Integer.parseInt(this.draftParams[2].toString()), Boolean.parseBoolean(this.draftParams[1].toString()));
 		
 		return result;
-	}
-	
-	public static void main(String[] args) {
-		TeamCreatorPage dsp =  new TeamCreatorPage(3);
-		dsp.setSize(500, 100);
-		dsp.setDefaultCloseOperation(EXIT_ON_CLOSE);
-		dsp.setVisible(true);
 	}
 }

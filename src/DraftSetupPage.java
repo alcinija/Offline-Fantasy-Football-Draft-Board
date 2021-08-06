@@ -1,4 +1,3 @@
-import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -15,8 +14,8 @@ import javax.swing.JTextField;
 
 public class DraftSetupPage extends JFrame implements ActionListener {
 	private JComboBox yearCB;
-	private JTextField roundsTF, numTeamsTF, teamNameTF;
-	private JLabel year, rounds, numTeams, teamName, snakeL;
+	private JTextField roundsTF, numTeamsTF;
+	private JLabel year, rounds, numTeams, snakeL;
 	private JRadioButton snakeB;
 	private JButton next;
 	
@@ -39,9 +38,6 @@ public class DraftSetupPage extends JFrame implements ActionListener {
 		
 		this.numTeamsTF = new JTextField(15);
 		this.numTeams = new JLabel("Number of Teams: ");
-		
-		this.teamNameTF = new JTextField(15);
-		this.teamName = new JLabel("Team Name: ");
 		
 		this.snakeB = new JRadioButton();
 		this.snakeL = new JLabel("Snake: ");

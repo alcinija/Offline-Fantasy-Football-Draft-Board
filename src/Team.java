@@ -28,11 +28,17 @@ public class Team {
 			}
 		}
 	}
-	public String rosterRecap() {
-		String recap = "";
+	
+	public void removeLastPlayerFromRoster() {
+		this.roster.remove(this.roster.size() - 1);
+	}
+	
+	public Object[][] rosterRecap() {
+		Object[][] recap = new String[this.roster.size()][2];
 		
 		for (int i = 0; i < this.roster.size(); i++) {
-			recap = recap + "Rnd " + i + ": " + this.roster.get(i).getOvlrank() + " " + this.roster.get(i).getFName().charAt(0) + ". " + this.roster.get(i).getLName() + " " + this.roster.get(i).getPosition() + " " + this.roster.get(i).getNFLTeam() + " " + this.roster.get(i).getByeWeek() + "\n";
+			recap[i][0] = "Rnd " + (i + 1) + ": ";
+			recap[i][1] = this.roster.get(i).getOvlrank() + "  " + this.roster.get(i).getFName() + "  " + this.roster.get(i).getLName() + "  " + this.roster.get(i).getPosition() + "  " + this.roster.get(i).getNFLTeam() + "  " + this.roster.get(i).getByeWeek();
 		}
 		
 		return recap;

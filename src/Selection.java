@@ -16,6 +16,10 @@ public class Selection {
 		this.player = null;
 	}
 	
+	public String getName() {
+		return this.teamName;
+	}
+	
 	public Object[] getSelection() {
 		Object[] selection = new Object[2];
 		
