@@ -15,7 +15,7 @@ import javax.swing.JTextField;
 /**
  * Name: Joe Alcini
  * File: DraftSetupPage.java
- * Date: 8/05/2000
+ * Date: 8/05/2020
  * Current Version: 1.0.0 Original Release
  * Description: Loads the pages to create the preferences
  */
