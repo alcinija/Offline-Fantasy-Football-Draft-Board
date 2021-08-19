@@ -3,7 +3,7 @@ import java.util.ArrayList;
 /**
  * Name: Joe Alcini
  * File: Draft.java
- * Date: 8/05/2000
+ * Date: 8/05/2021
  * Current Version: 1.0.0 Original Release
  * Description: Creates a Draft object
  * that performs most of the calculations for
