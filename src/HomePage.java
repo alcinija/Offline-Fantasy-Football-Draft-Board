@@ -22,37 +22,62 @@ import javax.swing.WindowConstants;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 
+/**
+ * Name: Joe Alcini
+ * File: Hompage.java
+ * Date: 8/05/2000
+ * Current Version: 1.0.0 Original Release
+ * Description: Creates the main display that
+ * the user interacts with
+ */
 public class HomePage extends JFrame implements ActionListener {
+	// Declares visual components
 	private JTable list, roundTab, teamTab;
 	private JButton searchButton, nextPick, prevPick;
-	private JLabel search;
 	private JTextField searchTF;
 	private JPanel listPanel, roundPanel, teamPanel;
 	private DefaultTableModel model, roundModel, teamModel;
 	
+	// Declares menu items
 	private JMenuBar menuBar;
 	private JMenu filter, create, save;
 	private JMenuItem qb, wr, rb, def, k, te, clear, newP, saveM;
 	
+	// Declares draft field
 	private Draft draft;
 	
+	/**
+	 * Creates the HomePage object 
+	 * @param players Object[][] A formatted 2D array of player info
+	 * @param cols String[] The labels for the players table 
+	 * @param draft Draft the functional draft object
+	 */
 	public HomePage(Object[][] players, String[] cols, Draft draft) {
+		// Titles the frame
 		super("Fantasy Draft");
 		
+		// Assigns draft
 		this.draft = draft;
 		
+		// Creates menu
 		createMenu();
 		
+		// Creates the main list
 		createList(players, cols);
 		
+		// Creates the search bar
 		createSearch();
 		
+		// Creates the selected team recap
 		createTeams();
 		
+		// Creates the selected round recap
 		createRounds();
 		
+		// Creates the buttons
 		createButtons();
 		
+		// Creates the panels
 		createPanels();
 		
 		JPanel roundPanel = new JPanel();
