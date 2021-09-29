@@ -80,10 +80,12 @@ public class HomePage extends JFrame implements ActionListener {
 		// Creates the panels
 		createPanels();
 		
+		// Creates a list of players drafted in a round
 		JPanel roundPanel = new JPanel();
 		roundPanel.add(this.roundTab, BorderLayout.PAGE_END);
 		roundPanel.add(new JScrollPane(this.roundTab));
 		
+		// Creates a list of draftable players
 		JPanel listPanel = new JPanel();
 		listPanel.setLayout(new FlowLayout());
 		listPanel.add(this.searchTF);
@@ -91,59 +93,77 @@ public class HomePage extends JFrame implements ActionListener {
 		listPanel.add(this.list);
 		listPanel.add(new JScrollPane(this.list));
 		
+		// Creates a list of players
 		JPanel teamPanel = new JPanel();
 		teamPanel.add(this.teamTab);
 		teamPanel.add(new JScrollPane(this.teamTab));
 		
+		// Creates the directional buttons 
 		JPanel buttonRow = new JPanel();
 		buttonRow.add(this.prevPick, BorderLayout.WEST);
 		buttonRow.add(this.nextPick, BorderLayout.EAST);
 		
-		
+		// Adds the menu bar 
 		this.setJMenuBar(menuBar);
 		
-		
+		// adds the panels
 		this.add(roundPanel, BorderLayout.WEST);
 		this.add(listPanel, BorderLayout.CENTER);
 		this.add(teamPanel, BorderLayout.EAST);
 		this.add(buttonRow, BorderLayout.SOUTH);
 	}
 	
+	/**
+	* Creates the filtering menu
+	*/
 	private void createMenu() {
+		// Creates a menu bar
 		this.menuBar = new JMenuBar();
 		
+		// Creates the first menues
 		this.filter = new JMenu("Filter");
 		this.create = new JMenu("Create");
 		
+		// Adds a quarterback option
 		this.qb = new JMenuItem("QB");
 		this.qb.addActionListener(this);
 		
+		// Adds a runnung back option
 		this.rb = new JMenuItem("RB");
 		this.rb.addActionListener(this);
 		
+		// Adds a wide reciever option
 		this.wr = new JMenuItem("WR");
 		this.wr.addActionListener(this);
 		
+		// adds a tight end option
 		this.te = new JMenuItem("TE");
 		this.te.addActionListener(this);
 		
+		// Adds a kicker option
 		this.k = new JMenuItem("K");
 		this.k.addActionListener(this);
 		
+		// Adds a defense option
 		this.def = new JMenuItem("D");
 		this.def.addActionListener(this);
 		
+		// Clears the filters to show all players
 		this.clear = new JMenuItem("Clear Filters");
 		this.clear.addActionListener(this);
 		
+		// Adds a new player to the list
 		this.newP = new JMenuItem("New Player");
 		this.newP.addActionListener(this);
 		
+		// Adds a tab to save picks
 		this.save = new JMenu("Save");
 		
+		// Option to save picks
 		this.saveM = new JMenuItem("Save Pick");
 		this.saveM.addActionListener(this);
 		
+		// Adds the player filters
 		this.filter.add(this.qb);
 		this.filter.add(this.rb);
 		this.filter.add(this.wr);
@@ -151,11 +171,14 @@ public class HomePage extends JFrame implements ActionListener {
 		this.filter.add(this.k);
 		this.filter.add(this.def);
 		
+		// Adds the new player option
 		this.create.add(this.newP);
 		
+		// Adds the filter and creation buttons
 		this.menuBar.add(this.filter);
 		this.menuBar.add(this.create);
 	}
+	
 	
 	private void createSearch() {
 		this.searchTF = new JTextField(40);
